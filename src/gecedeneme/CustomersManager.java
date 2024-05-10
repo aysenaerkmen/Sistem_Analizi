@@ -136,7 +136,6 @@ public class CustomersManager extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addGap(278, 278, 278)
                         .addComponent(ButtonCustomersExit))
@@ -203,7 +202,7 @@ public class CustomersManager extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 34, Short.MAX_VALUE))
+                .addGap(0, 38, Short.MAX_VALUE))
         );
 
         CustomersTable.setBackground(new java.awt.Color(255, 255, 234));
@@ -294,7 +293,7 @@ public class CustomersManager extends javax.swing.JFrame {
     private void ShowCustomer(){
         try
         {
-            connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
             Statement statement = (Statement) connection.createStatement();
             resultSet = statement.executeQuery("Select * from CustomersTable");
             CustomersTable.setModel(DbUtils.resultSetToTableModel(resultSet));
