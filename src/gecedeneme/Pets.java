@@ -4,6 +4,9 @@
  */
 package gecedeneme;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Muharrem
@@ -15,6 +18,9 @@ public class Pets extends javax.swing.JFrame {
      */
     public Pets() {
         initComponents();
+        GetCategories();
+        ShowPets();
+      
     }
 
     /**
@@ -34,16 +40,16 @@ public class Pets extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        PetNameT = new javax.swing.JTextField();
+        AmountT = new javax.swing.JTextField();
+        PriceT = new javax.swing.JTextField();
+        CatC = new javax.swing.JComboBox<>();
+        EditBtn = new javax.swing.JButton();
+        SaveBtn = new javax.swing.JButton();
+        DeleteBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        PetsT = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -69,38 +75,53 @@ public class Pets extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel5.setText("Price:");
 
-        jTextField1.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        PetNameT.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        PetNameT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                PetNameTActionPerformed(evt);
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        AmountT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                AmountTActionPerformed(evt);
             }
         });
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        PriceT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                PriceTActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CatC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 102, 153));
-        jButton1.setText("Edit");
+        EditBtn.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        EditBtn.setForeground(new java.awt.Color(255, 102, 153));
+        EditBtn.setText("Edit");
+        EditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 102, 153));
-        jButton2.setText("Save");
+        SaveBtn.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        SaveBtn.setForeground(new java.awt.Color(255, 102, 153));
+        SaveBtn.setText("Save");
+        SaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 102, 153));
-        jButton3.setText("Delete");
+        DeleteBtn.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        DeleteBtn.setForeground(new java.awt.Color(255, 102, 153));
+        DeleteBtn.setText("Delete");
+        DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteBtnActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(255, 255, 222));
         jButton7.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
@@ -131,26 +152,26 @@ public class Pets extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(PetNameT, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(CatC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButton1)
+                                        .addComponent(EditBtn)
                                         .addGap(77, 77, 77)
-                                        .addComponent(jButton2)))
+                                        .addComponent(SaveBtn)))
                                 .addGap(31, 31, 31)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(AmountT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(41, 41, 41)
-                                        .addComponent(jButton3)))
+                                        .addComponent(DeleteBtn)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(PriceT, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(8, 8, 8))
         );
         jPanel3Layout.setVerticalGroup(
@@ -168,16 +189,16 @@ public class Pets extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1)
+                    .addComponent(CatC)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(PetNameT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AmountT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PriceT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(EditBtn)
+                    .addComponent(SaveBtn)
+                    .addComponent(DeleteBtn))
                 .addGap(16, 16, 16))
         );
 
@@ -194,20 +215,25 @@ public class Pets extends javax.swing.JFrame {
                 .addGap(0, 34, Short.MAX_VALUE))
         );
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 234));
-        jTable1.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        PetsT.setBackground(new java.awt.Color(255, 255, 234));
+        PetsT.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        PetsT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Name", "Category", "Amount", "Price"
+                "ID", "Name", "Category", "Amount", "Price"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        PetsT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PetsTMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(PetsT);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -246,23 +272,170 @@ public class Pets extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+ PraperedStatement prpStatement = null;
+    
+    Statement statement = null;
+    Connection connection = null;
+    ResultSet resultSet = null;
+    
+       private void ShowPets(){
+        try
+        {
+            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            Statement statement = (Statement) connection.createStatement();
+            resultSet = statement.executeQuery("Select * from PetsT");
+            PetsT.setModel(DbUtils.resultSetToTableModel(resultSet));
+        } 
+        catch (Exception e) 
+        {
+        
+        }
+    }
+       private void GetCategories(){
+           try{
+                connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            Statement statement = (Statement) connection.createStatement();
+            resultSet = statement.executeQuery("Select * from CategoryT");
+            while(resultSet.next()){
+                int CatId=resultSet.getInt("CatId");
+                CatC.addItem(CatId);
+            }
+           }catch(Exception e){
+               
+           }
+       }
+    private void PetNameTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetNameTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_PetNameTActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void AmountTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmountTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_AmountTActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void PriceTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_PriceTActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    int itemId;
+    Statement statement1 = null;
+    ResultSet resultSet1 = null;
+     public void Counter(){
+        try 
+        {
+            statement1 = (Statement) connection.createStatement();
+            resultSet1 = statement1.executeQuery("select Max(PId) from PetsT");
+            resultSet1.next();
+            itemId = resultSet1.getInt(1)+1;
+        }
+        catch (Exception e) 
+        {
+            
+        }
+    }
+    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
+         if(PetNameT.getText().isEmpty()  || CatC.getSelectedIndex()==-1 || AmountT.getText().isEmpty()||PriceT.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
+        }else{
+            try {
+                Counter();
+                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into PetT values(?,?,?,?,?)");
+                save.setInt(1,itemId);
+                save.setString(2,PetNameT.getText());
+                save.setString(3,Integer.valueOf(CatC.getSelectedItem().toString()));
+                save.setString(4,Integer.valueOf(AmountT.getText()));
+                save.setString(5,Integer.valueOf(PriceT.getText()));
+                
+                
+                int satir = save.executeUpdate();
+                
+                JOptionPane.showMessageDialog(this, "Product added Successfully!");
+                
+                connection.close();
+                ShowPets();
+                DeleteAll();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+    }//GEN-LAST:event_SaveBtnActionPerformed
+int key=0;
+    private void PetsTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PetsTMouseClicked
+         
+        DefaultTableModel model = (DefaultTableModel) PetsT.getModel();
+        int busira = PetsT.getSelectedRow();
+        key = Integer.valueOf(model.getValueAt(busira, 0).toString());
+        PetNameT.setText(model.getValueAt(busira, 1).toString());
+        CatC.setSelectedItem(model.getValueAt(busira, 2).toString());
+        AmountT.setText(model.getValueAt(busira, 3).toString());
+        PriceT.setText(model.getValueAt(busira, 4).toString());
+        
+    }//GEN-LAST:event_PetsTMouseClicked
+
+    private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
+          if(PetNameT.getText().isEmpty() || CatC.getSelectedIndex()==-1|| AmountT.getText().isEmpty()|| PriceT.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
+        }else{
+            try {
+                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update PetsT set PetsT=?,PName=?,PCat=?,PAmount=?,Pprice=? where PId=?");
+                  save.setInt(1,itemId);
+                save.setString(2,PetNameT.getText());
+                save.setString(3,Integer.valueOf(CatC.getSelectedItem().toString()));
+                save.setString(4,Integer.valueOf(AmountT.getText()));
+                save.setString(5,Integer.valueOf(PriceT.getText()));
+                
+                
+                
+                int satir = save.executeUpdate();
+                
+                JOptionPane.showMessageDialog(this, "Pet edited Successfully!");
+                
+                connection.close();
+                ShowPets();
+                DeleteAll();
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+        
+    }//GEN-LAST:event_EditBtnActionPerformed
+    private void DeleteAll(){
+        PetNameT.setText("");
+        AmountT.setText("");
+        PriceT.setText("");
+        CatC.setSelectedIndex(-1);
+    }
+    private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
+         if(key == 0){
+            JOptionPane.showMessageDialog(this, "!!! warning, select a product !!!");
+        }else{
+            try {
+                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from PetsT where PId=?");
+                save.setInt(1,key);
+                
+                
+                
+                int satir = save.executeUpdate();
+                
+                JOptionPane.showMessageDialog(this, "Pet deleted Successfully!");
+                
+                connection.close();
+                ShowPets();
+               DeleteAll();
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+    }//GEN-LAST:event_DeleteBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,11 +473,15 @@ public class Pets extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField AmountT;
+    private javax.swing.JComboBox<String> CatC;
+    private javax.swing.JButton DeleteBtn;
+    private javax.swing.JButton EditBtn;
+    private javax.swing.JTextField PetNameT;
+    private javax.swing.JTable PetsT;
+    private javax.swing.JTextField PriceT;
+    private javax.swing.JButton SaveBtn;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -314,9 +491,5 @@ public class Pets extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
