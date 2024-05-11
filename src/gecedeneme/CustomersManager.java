@@ -4,8 +4,19 @@
  */
 package gecedeneme;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+//import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -14,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class CustomersManager extends javax.swing.JFrame {
 
     
-    PraperedStatement prpStatement = null;
+    PreparedStatement prpStatement = null;
     
     Statement statement = null;
     Connection connection = null;
@@ -293,9 +304,10 @@ public class CustomersManager extends javax.swing.JFrame {
     private void ShowCustomer(){
         try
         {
-            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            Class.forName("org.postgresql.Driver");
+            connection = (Connection)DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
             Statement statement = (Statement) connection.createStatement();
-            resultSet = statement.executeQuery("Select * from CustomersTable");
+            resultSet = statement.executeQuery("Select * from public.\"CustomersTable\"");
             CustomersTable.setModel(DbUtils.resultSetToTableModel(resultSet));
         } 
         catch (Exception e) 
@@ -323,14 +335,19 @@ public class CustomersManager extends javax.swing.JFrame {
 
     private void ButtonCustomersSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCustomersSaveActionPerformed
         
-        
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomersManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if(CustomersName.getText().isEmpty() || CustomersPhone.getText().isEmpty() || CustomersAddress.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
                 Counter();
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into CustomersTable values(?,?,?,?)");
+                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into public.\"CustomersTable\" values(?,?,?,?)");
                 save.setInt(1,itemId);
                 save.setString(2,CustomersName.getText());
                 save.setString(3,CustomersAddress.getText());
@@ -365,13 +382,18 @@ public class CustomersManager extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomersTableMouseClicked
 
     private void ButtonCustomersEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCustomersEditActionPerformed
-        
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomersManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if(CustomersName.getText().isEmpty() || CustomersPhone.getText().isEmpty() || CustomersAddress.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update CustomersTable set CustName=?,CustAdd=?,CustPhone=? where CustId=?");
+                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update public.\"CustomersTable\" set CustomersName=?,CustomersAddress=?,CustomersPhone=? where CustId=?");
                 save.setInt(4,key);
                 save.setString(1,CustomersName.getText());
                 save.setString(2,CustomersAddress.getText());
@@ -395,13 +417,18 @@ public class CustomersManager extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonCustomersEditActionPerformed
 
     private void ButtonCustomersDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCustomersDeleteActionPerformed
-        
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomersManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if(key == 0){
             JOptionPane.showMessageDialog(this, "!!! warning, select a customer !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from CustomersTable where CustId=?");
+                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from public.\"CustomersTable\" where itemId=?");
                 save.setInt(1,key);
                 
                 

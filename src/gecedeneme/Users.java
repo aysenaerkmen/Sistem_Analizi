@@ -3,7 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gecedeneme;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Users extends javax.swing.JFrame {
 
-    PraperedStatement prpStatement = null;
+    PreparedStatement prpStatement = null;
     Statement statement = null;
     Connection connection = null;
     ResultSet resultSet = null;
@@ -328,7 +336,7 @@ public class Users extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "User deleted Successfully!");
                 
                 connection.close();
-                ShowCustomer();
+                ShowUsers();
                 DeleteAll();
                 
             } catch (Exception e) {
