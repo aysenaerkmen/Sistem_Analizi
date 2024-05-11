@@ -147,10 +147,6 @@ public class CustomersManager extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(278, 278, 278)
-                        .addComponent(ButtonCustomersExit))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,8 +171,13 @@ public class CustomersManager extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
-                                    .addComponent(CustomersPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap())
+                                    .addComponent(CustomersPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ButtonCustomersExit)
+                        .addGap(47, 47, 47))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,28 +285,15 @@ public class CustomersManager extends javax.swing.JFrame {
         CustomersPhone.setText("");
     }
     
-    int itemId;
+    
     Statement statement1 = null;
     ResultSet resultSet1 = null;
-    public void Counter(){
-        try 
-        {
-            statement1 = (Statement) connection.createStatement();
-            resultSet1 = statement1.executeQuery("select Max(CustId) from CustomersTable");
-            resultSet1.next();
-            itemId = resultSet1.getInt(1)+1;
-        }
-        catch (Exception e) 
-        {
-            
-        }
-    }
     
     private void ShowCustomer(){
         try
         {
             Class.forName("org.postgresql.Driver");
-            connection = (Connection)DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            connection = (Connection)DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
             Statement statement = (Statement) connection.createStatement();
             resultSet = statement.executeQuery("Select * from public.\"CustomersTable\"");
             CustomersTable.setModel(DbUtils.resultSetToTableModel(resultSet));
@@ -345,16 +333,16 @@ public class CustomersManager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                Counter();
-                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into public.\"CustomersTable\" values(?,?,?,?)");
-                save.setInt(1,itemId);
-                save.setString(2,CustomersName.getText());
-                save.setString(3,CustomersAddress.getText());
-                save.setString(4,CustomersPhone.getText());
                 
                 
-                int satir = save.executeUpdate();
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into public.\"CustomersTable\" values(?,?,?)");
+                save.setString(1,CustomersName.getText());
+                save.setString(2,CustomersAddress.getText());
+                save.setString(3,CustomersPhone.getText());
+                
+                
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Customer added Successfully!");
                 
@@ -372,11 +360,11 @@ public class CustomersManager extends javax.swing.JFrame {
     private void CustomersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomersTableMouseClicked
         
         DefaultTableModel model = (DefaultTableModel) CustomersTable.getModel();
-        int busira = CustomersTable.getSelectedRow();
-        key = Integer.valueOf(model.getValueAt(busira, 0).toString());
-        CustomersName.setText(model.getValueAt(busira, 1).toString());
-        CustomersAddress.setText(model.getValueAt(busira, 2).toString());
-        CustomersPhone.setText(model.getValueAt(busira, 3).toString());
+        int thisRow = CustomersTable.getSelectedRow();
+        key = Integer.parseInt(model.getValueAt(thisRow, 3).toString());
+        CustomersName.setText(model.getValueAt(thisRow, 0).toString());
+        CustomersAddress.setText(model.getValueAt(thisRow, 1).toString());
+        CustomersPhone.setText(model.getValueAt(thisRow, 2).toString());
         
         
     }//GEN-LAST:event_CustomersTableMouseClicked
@@ -392,22 +380,22 @@ public class CustomersManager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update public.\"CustomersTable\" set CustomersName=?,CustomersAddress=?,CustomersPhone=? where CustId=?");
-                save.setInt(4,key);
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("UPDATE public.\"CustomersTable\" SET \"CustomersName\" = ?, \"CustomersAddress\" = ?, \"CustomersPhone\" = ? WHERE \"itemId\" = ?");
                 save.setString(1,CustomersName.getText());
                 save.setString(2,CustomersAddress.getText());
                 save.setString(3,CustomersPhone.getText());
+                save.setInt(4,key);
+
                 
-                
-                int satir = save.executeUpdate();
+                 save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Customer edited Successfully!");
                 
-                connection.close();
+                
                 ShowCustomer();
                 DeleteAll();
-                
+                connection.close();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, e);
             }
@@ -427,13 +415,13 @@ public class CustomersManager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "!!! warning, select a customer !!!");
         }else{
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://172.30.18.170:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from public.\"CustomersTable\" where itemId=?");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete FROM public.\"CustomersTable\" where \"itemId\"=?");
                 save.setInt(1,key);
                 
                 
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Customer deleted Successfully!");
                 

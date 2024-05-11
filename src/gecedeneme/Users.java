@@ -29,9 +29,10 @@ public class Users extends javax.swing.JFrame {
         private void ShowUsers(){
         try
         {
-            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            Class.forName("org.postgresql.Driver");
+            connection = (Connection)DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
             Statement statement = (Statement) connection.createStatement();
-            resultSet = statement.executeQuery("Select * from UserTbl");
+            resultSet = statement.executeQuery("Select * FROM public.users");
             UsersTable.setModel(DbUtils.resultSetToTableModel(resultSet));
         } 
         catch (Exception e) 
@@ -59,12 +60,14 @@ public class Users extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        UserName = new javax.swing.JTextField();
-        PasswordTb = new javax.swing.JTextField();
+        ID = new javax.swing.JTextField();
+        Password = new javax.swing.JTextField();
         EditBtn = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        UserName = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         UsersTable = new javax.swing.JTable();
@@ -82,21 +85,21 @@ public class Users extends javax.swing.JFrame {
         jLabel6.setText("PupPet User Manager");
 
         jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jLabel7.setText("Name:");
+        jLabel7.setText("ID:");
 
         jLabel9.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel9.setText("Password:");
 
-        UserName.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        UserName.addActionListener(new java.awt.event.ActionListener() {
+        ID.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UserNameActionPerformed(evt);
+                IDActionPerformed(evt);
             }
         });
 
-        PasswordTb.addActionListener(new java.awt.event.ActionListener() {
+        Password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordTbActionPerformed(evt);
+                PasswordActionPerformed(evt);
             }
         });
 
@@ -137,41 +140,48 @@ public class Users extends javax.swing.JFrame {
             }
         });
 
+        UserName.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        UserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserNameActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
+        jLabel8.setText("Name:");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap(198, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(114, 114, 114))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(EditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(142, 142, 142)))
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(SaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(119, 119, 119)
-                                .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addComponent(jLabel9))))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(296, 296, 296)
-                        .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(PasswordTb, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(174, 174, 174))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(378, 378, 378)
+                .addGap(156, 156, 156)
+                .addComponent(EditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(163, 163, 163)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7)
                 .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(82, 82, 82)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(SaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(156, 156, 156)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(DeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,20 +190,26 @@ public class Users extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jButton7))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PasswordTb, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SaveBtn)
-                    .addComponent(DeleteBtn)
-                    .addComponent(EditBtn))
-                .addGap(16, 16, 16))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 70, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(EditBtn)
+                            .addComponent(SaveBtn)
+                            .addComponent(DeleteBtn))
+                        .addContainerGap())))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -207,7 +223,7 @@ public class Users extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(461, 461, 461)
                 .addComponent(jLabel1)
-                .addContainerGap(461, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,6 +247,8 @@ public class Users extends javax.swing.JFrame {
                 "ID", "Name", "Password"
             }
         ));
+        UsersTable.setRowSelectionAllowed(true);
+        UsersTable.setSelectionBackground(new java.awt.Color(255, 204, 204));
         UsersTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 UsersTableMouseClicked(evt);
@@ -246,10 +264,10 @@ public class Users extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 820, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,13 +294,13 @@ public class Users extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void UserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameActionPerformed
+    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_UserNameActionPerformed
+    }//GEN-LAST:event_IDActionPerformed
 
-    private void PasswordTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordTbActionPerformed
+    private void PasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordTbActionPerformed
+    }//GEN-LAST:event_PasswordActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -290,18 +308,25 @@ public class Users extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
-             
-        if(UserName.getText().isEmpty() || PasswordTb.getText().isEmpty()){
+        
+        try {    
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(ID.getText().isEmpty()|| UserName.getText().isEmpty() || Password.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update USerTable set UName=?,UPass=? where UId=?");
-                save.setInt(3,Key);
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement(" UPDATE public.users SET  \"UserName\"=?, \"Password\"=? where \"UserId\"=?");
+                String keyS= String.valueOf(Key);
+                save.setString(3, keyS);
                 save.setString(1,UserName.getText());
-                save.setString(2,PasswordTb.getText());     
+                save.setString(2,Password.getText());     
            
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "User edited Successfully!");
                 
@@ -316,22 +341,31 @@ public class Users extends javax.swing.JFrame {
     }//GEN-LAST:event_EditBtnActionPerformed
     private void DeleteAll()
     {
+        ID.setText("");
         UserName.setText("");
-        PasswordTb.setText("");
+        Password.setText("");
         Key =0;
     }
     private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
-                if(Key == 0){
+         
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(Key == 0){
             JOptionPane.showMessageDialog(this, "!!! warning, select a User !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from UserTable where UId=?");
-                save.setInt(1,Key);
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete FROM public.users  where \"UserId\"=?");
+                String keyS= String.valueOf(Key);
+                save.setString(1, keyS);
                 
                 
                 
-                int satir = save.executeUpdate();
+                
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "User deleted Successfully!");
                 
@@ -345,44 +379,27 @@ public class Users extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_DeleteBtnActionPerformed
-
-    int itemId;
-    Statement statement1 = null;
-    ResultSet resultSet1 = null;
-    public void Counter(){
-        try 
-        {
-            statement1 = (Statement) connection.createStatement();
-            resultSet1 = statement1.executeQuery("select Max(UId) from UserTable");
-            resultSet1.next();
-            itemId = resultSet1.getInt(1)+1;
-        }
-        catch (Exception e) 
-        {
-            
-        }
-    }
     
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
                
         
-        if(UserName.getText().isEmpty() || PasswordTb.getText().isEmpty()){
+        if(ID.getText().isEmpty() || UserName.getText().isEmpty()|| Password.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                Counter();
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into UserTable values(?,?,?,?)");
-                save.setInt(1,itemId);
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into  public.users values(?,?,?)");
+                save.setString(1,ID.getText());
                 save.setString(2,UserName.getText());
-                save.setString(3,PasswordTb.getText());
+                save.setString(3,Password.getText());
                 
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "User added Successfully!");
                 
                 connection.close();
+                DeleteAll();
                 ShowUsers();
 
             } catch (Exception e) {
@@ -393,13 +410,19 @@ public class Users extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveBtnActionPerformed
     int Key = 0;
     private void UsersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersTableMouseClicked
+        
         DefaultTableModel model = (DefaultTableModel) UsersTable.getModel();
         int Myindex = UsersTable.getSelectedRow();
         Key = Integer.valueOf(model.getValueAt(Myindex, 0).toString());
+        ID.setText(model.getValueAt(Myindex,0).toString());
         UserName.setText(model.getValueAt(Myindex, 1).toString());
-        PasswordTb.setText(model.getValueAt(Myindex, 2).toString());
+        Password.setText(model.getValueAt(Myindex, 2).toString());
 
     }//GEN-LAST:event_UsersTableMouseClicked
+
+    private void UserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UserNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -439,7 +462,8 @@ public class Users extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton EditBtn;
-    private javax.swing.JTextField PasswordTb;
+    private javax.swing.JTextField ID;
+    private javax.swing.JTextField Password;
     private javax.swing.JButton SaveBtn;
     private javax.swing.JTextField UserName;
     private javax.swing.JTable UsersTable;
@@ -447,6 +471,7 @@ public class Users extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
