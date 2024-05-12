@@ -3,7 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gecedeneme;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +26,6 @@ public class Pets extends javax.swing.JFrame {
      */
     public Pets() {
         initComponents();
-        GetCategories();
         ShowPets();
       
     }
@@ -37,17 +44,14 @@ public class Pets extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        PetNameT = new javax.swing.JTextField();
-        AmountT = new javax.swing.JTextField();
-        PriceT = new javax.swing.JTextField();
-        CatC = new javax.swing.JComboBox<>();
+        ID = new javax.swing.JTextField();
+        Species = new javax.swing.JTextField();
         EditBtn = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         PetsT = new javax.swing.JTable();
 
@@ -64,37 +68,23 @@ public class Pets extends javax.swing.JFrame {
         jLabel1.setText("PupPet Pet Manager");
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jLabel2.setText("Name:");
-
-        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jLabel3.setText("Category:");
-
-        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jLabel4.setText("Amount:");
+        jLabel2.setText("ID:");
 
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jLabel5.setText("Price:");
+        jLabel5.setText("Species:");
 
-        PetNameT.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        PetNameT.addActionListener(new java.awt.event.ActionListener() {
+        ID.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PetNameTActionPerformed(evt);
+                IDActionPerformed(evt);
             }
         });
 
-        AmountT.addActionListener(new java.awt.event.ActionListener() {
+        Species.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AmountTActionPerformed(evt);
+                SpeciesActionPerformed(evt);
             }
         });
-
-        PriceT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriceTActionPerformed(evt);
-            }
-        });
-
-        CatC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         EditBtn.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         EditBtn.setForeground(new java.awt.Color(255, 102, 153));
@@ -133,46 +123,47 @@ public class Pets extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 102, 153));
+        jButton1.setText("Adopt");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addGap(8, 8, 8))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addGap(137, 137, 137)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(358, 358, 358)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(PetNameT, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(CatC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(EditBtn)
-                                        .addGap(77, 77, 77)
-                                        .addComponent(SaveBtn)))
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(AmountT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(41, 41, 41)
-                                        .addComponent(DeleteBtn)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)))
+                            .addComponent(jLabel2)
+                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(371, 371, 371)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(PriceT, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(8, 8, 8))
+                            .addComponent(Species, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(390, 390, 390)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(233, 233, 233)
+                        .addComponent(EditBtn)
+                        .addGap(77, 77, 77)
+                        .addComponent(SaveBtn)
+                        .addGap(72, 72, 72)
+                        .addComponent(DeleteBtn)
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,25 +172,21 @@ public class Pets extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton7))
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CatC)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(PetNameT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AmountT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(PriceT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Species, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EditBtn)
                     .addComponent(SaveBtn)
-                    .addComponent(DeleteBtn))
-                .addGap(16, 16, 16))
+                    .addComponent(DeleteBtn)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -219,15 +206,16 @@ public class Pets extends javax.swing.JFrame {
         PetsT.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
         PetsT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "ID", "Name", "Category", "Amount", "Price"
+                "ID", "Species"
             }
         ));
+        PetsT.setSelectionBackground(new java.awt.Color(255, 204, 204));
         PetsT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PetsTMouseClicked(evt);
@@ -244,7 +232,7 @@ public class Pets extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 237, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 820, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -272,7 +260,7 @@ public class Pets extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
- PraperedStatement prpStatement = null;
+ PreparedStatement prpStatement = null;
     
     Statement statement = null;
     Connection connection = null;
@@ -281,9 +269,10 @@ public class Pets extends javax.swing.JFrame {
        private void ShowPets(){
         try
         {
-            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
+            Class.forName("org.postgresql.Driver");
+            connection = (Connection)DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
             Statement statement = (Statement) connection.createStatement();
-            resultSet = statement.executeQuery("Select * from PetsT");
+            resultSet = statement.executeQuery("Select * FROM public.\"pets\"");
             PetsT.setModel(DbUtils.resultSetToTableModel(resultSet));
         } 
         catch (Exception e) 
@@ -291,68 +280,39 @@ public class Pets extends javax.swing.JFrame {
         
         }
     }
-       private void GetCategories(){
-           try{
-                connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-            Statement statement = (Statement) connection.createStatement();
-            resultSet = statement.executeQuery("Select * from CategoryT");
-            while(resultSet.next()){
-                int CatId=resultSet.getInt("CatId");
-                CatC.addItem(CatId);
-            }
-           }catch(Exception e){
-               
-           }
-       }
-    private void PetNameTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetNameTActionPerformed
+    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PetNameTActionPerformed
+    }//GEN-LAST:event_IDActionPerformed
 
-    private void AmountTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmountTActionPerformed
+    private void SpeciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpeciesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AmountTActionPerformed
-
-    private void PriceTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PriceTActionPerformed
+    }//GEN-LAST:event_SpeciesActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    int itemId;
-    Statement statement1 = null;
-    ResultSet resultSet1 = null;
-     public void Counter(){
-        try 
-        {
-            statement1 = (Statement) connection.createStatement();
-            resultSet1 = statement1.executeQuery("select Max(PId) from PetsT");
-            resultSet1.next();
-            itemId = resultSet1.getInt(1)+1;
-        }
-        catch (Exception e) 
-        {
-            
-        }
-    }
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-         if(PetNameT.getText().isEmpty()  || CatC.getSelectedIndex()==-1 || AmountT.getText().isEmpty()||PriceT.getText().isEmpty()){
+         
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(ID.getText().isEmpty()  || Species.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                Counter();
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into PetT values(?,?,?,?,?)");
-                save.setInt(1,itemId);
-                save.setString(2,PetNameT.getText());
-                save.setString(3,Integer.valueOf(CatC.getSelectedItem().toString()));
-                save.setString(4,Integer.valueOf(AmountT.getText()));
-                save.setString(5,Integer.valueOf(PriceT.getText()));
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into public.\"pets\" values(?,?)");
+                
+                save.setString(1,ID.getText());
+                save.setString(2,Species.getText());
                 
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Product added Successfully!");
                 
@@ -368,31 +328,35 @@ int key=0;
     private void PetsTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PetsTMouseClicked
          
         DefaultTableModel model = (DefaultTableModel) PetsT.getModel();
-        int busira = PetsT.getSelectedRow();
-        key = Integer.valueOf(model.getValueAt(busira, 0).toString());
-        PetNameT.setText(model.getValueAt(busira, 1).toString());
-        CatC.setSelectedItem(model.getValueAt(busira, 2).toString());
-        AmountT.setText(model.getValueAt(busira, 3).toString());
-        PriceT.setText(model.getValueAt(busira, 4).toString());
+        int thisRow= PetsT.getSelectedRow();
+        key = Integer.valueOf(model.getValueAt(thisRow, 0).toString());
+        ID.setText(model.getValueAt(thisRow, 0).toString());
+        Species.setText(model.getValueAt(thisRow, 1).toString());
         
     }//GEN-LAST:event_PetsTMouseClicked
 
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
-          if(PetNameT.getText().isEmpty() || CatC.getSelectedIndex()==-1|| AmountT.getText().isEmpty()|| PriceT.getText().isEmpty()){
+         
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(ID.getText().isEmpty() || Species.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update PetsT set PetsT=?,PName=?,PCat=?,PAmount=?,Pprice=? where PId=?");
-                  save.setInt(1,itemId);
-                save.setString(2,PetNameT.getText());
-                save.setString(3,Integer.valueOf(CatC.getSelectedItem().toString()));
-                save.setString(4,Integer.valueOf(AmountT.getText()));
-                save.setString(5,Integer.valueOf(PriceT.getText()));
+                
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("UPDATE public.\"pets\" SET \"petSpecies\"=? where \"petId\"=?");
+                String keyS = String.valueOf(key);
+                save.setString(1,Species.getText());
+                save.setString(2,ID.getText());
                 
                 
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Pet edited Successfully!");
                 
@@ -407,23 +371,29 @@ int key=0;
         
     }//GEN-LAST:event_EditBtnActionPerformed
     private void DeleteAll(){
-        PetNameT.setText("");
-        AmountT.setText("");
-        PriceT.setText("");
-        CatC.setSelectedIndex(-1);
+        ID.setText("");
+        Species.setText("");
     }
     private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
-         if(key == 0){
+         
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(key == 0){
             JOptionPane.showMessageDialog(this, "!!! warning, select a product !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from PetsT where PId=?");
-                save.setInt(1,key);
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("DELETE FROM public.pets WHERE \"petId\"=?");
+                String keyS= String.valueOf(key);
+                save.setString(1,keyS);
                 
                 
                 
-                int satir = save.executeUpdate();
+                int row= save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Pet deleted Successfully!");
                 
@@ -436,6 +406,10 @@ int key=0;
             }
         }
     }//GEN-LAST:event_DeleteBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,19 +447,16 @@ int key=0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField AmountT;
-    private javax.swing.JComboBox<String> CatC;
     private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton EditBtn;
-    private javax.swing.JTextField PetNameT;
+    private javax.swing.JTextField ID;
     private javax.swing.JTable PetsT;
-    private javax.swing.JTextField PriceT;
     private javax.swing.JButton SaveBtn;
+    private javax.swing.JTextField Species;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

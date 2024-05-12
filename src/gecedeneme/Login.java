@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -44,8 +45,8 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        UnameTb = new javax.swing.JTextField();
-        PaswordTb = new javax.swing.JPasswordField();
+        UserName = new javax.swing.JTextField();
+        Password = new javax.swing.JPasswordField();
         LoginBtn = new javax.swing.JButton();
         AdminLogin = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -69,14 +70,14 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         jLabel3.setText("Password:");
 
-        UnameTb.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        UnameTb.addActionListener(new java.awt.event.ActionListener() {
+        UserName.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        UserName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UnameTbActionPerformed(evt);
+                UserNameActionPerformed(evt);
             }
         });
 
-        PaswordTb.setFont(new java.awt.Font("Bookshelf Symbol 7", 0, 18)); // NOI18N
+        Password.setFont(new java.awt.Font("Bookshelf Symbol 7", 0, 18)); // NOI18N
 
         LoginBtn.setBackground(new java.awt.Color(255, 255, 222));
         LoginBtn.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
@@ -104,8 +105,8 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(PaswordTb)
-                            .addComponent(UnameTb, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Password)
+                            .addComponent(UserName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -130,11 +131,11 @@ public class Login extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UnameTb, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PaswordTb, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(LoginBtn)
                 .addGap(18, 18, 18)
@@ -204,27 +205,59 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void UnameTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UnameTbActionPerformed
+    private void UserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_UnameTbActionPerformed
+    }//GEN-LAST:event_UserNameActionPerformed
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
-        if(UnameTb.getText().isEmpty() || PaswordTb.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please Enter both username and password");
-        }else{ 
-            String qry = "SELECT * FROM Usertbl WHERE Uname= '" +UnameTb.getText()+"' and Upass='"+PaswordTb.getText()+"'";
-            try {
-                connection = (Connection)DriverManager.getConnection("jdbc:postgresql://localhost/PetShop_Database", "postgres", "1234567");
-                statement = (Statement) connection.createStatement();
-                resultSet=statement.executeQuery(qry);
-                if (resultSet.next()) {
-                    new Pets().setVisible(true);
-                    this.dispose();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String userName = UserName.getText();
+        String password = Password.getText();
+        try {
+        // Veritabanı bağlantısı kur
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567");
+
+        // SQL sorgusunu hazırla
+        String sql = "SELECT * FROM users WHERE \"UserName\" = ? AND \"Password\" = ?";
+        prpStatement = connection.prepareStatement(sql);
+        prpStatement.setString(1, userName);
+        prpStatement.setString(2, password);
+
+        // Sorguyu çalıştır
+        resultSet = prpStatement.executeQuery();
+
+        // Sonuçları kontrol et
+        if (resultSet.next()) {
+            JOptionPane.showMessageDialog(null, "Başarıyla giriş yapıldı!");
+            
+            
+            
+            
+            
+            
+            
+            
+            // Burada başarılı giriş sonrası yapılacak işlemleri ekleyebilirsiniz.
+        } else {
+            JOptionPane.showMessageDialog(null, "Kullanıcı adı veya şifre hatalı!");
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Veritabanı bağlantı hatası: " + e.getMessage());
+    } finally {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (prpStatement != null) {
+                prpStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Veritabanı kapatma hatası: " + e.getMessage());
+        }
+    }
+
     }//GEN-LAST:event_LoginBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -276,8 +309,8 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AdminLogin;
     private javax.swing.JButton LoginBtn;
-    private javax.swing.JPasswordField PaswordTb;
-    private javax.swing.JTextField UnameTb;
+    private javax.swing.JPasswordField Password;
+    private javax.swing.JTextField UserName;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

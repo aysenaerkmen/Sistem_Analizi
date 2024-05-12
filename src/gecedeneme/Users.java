@@ -383,6 +383,11 @@ public class Users extends javax.swing.JFrame {
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
                
         
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(ID.getText().isEmpty() || UserName.getText().isEmpty()|| Password.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{

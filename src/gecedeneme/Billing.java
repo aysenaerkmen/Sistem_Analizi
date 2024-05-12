@@ -70,7 +70,6 @@ public class Billing extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         PriceT = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
-        DateCh = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -205,8 +204,7 @@ public class Billing extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(UserC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(DateCh, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6))
                         .addGap(30, 30, 30)
                         .addComponent(CustC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -262,10 +260,7 @@ public class Billing extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ProductT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BillBtn)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(DateCh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel6))
                 .addGap(107, 107, 107))
         );
 
@@ -619,7 +614,6 @@ public class Billing extends javax.swing.JFrame {
     private javax.swing.JButton BillBtn;
     private javax.swing.JTable BillT;
     private javax.swing.JComboBox<String> CustC;
-    private com.toedter.calendar.JDateChooser DateCh;
     private javax.swing.JTextField PriceT;
     private javax.swing.JButton PrintBtn;
     private javax.swing.JTable ProListT;

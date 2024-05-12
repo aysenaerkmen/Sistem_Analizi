@@ -304,6 +304,7 @@ public class CustomersManager extends javax.swing.JFrame {
         }
     }
     
+    
     private void CustomersNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomersNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CustomersNameActionPerformed

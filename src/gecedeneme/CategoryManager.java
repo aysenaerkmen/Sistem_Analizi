@@ -1,6 +1,16 @@
 
 package gecedeneme;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,25 +23,36 @@ public class CategoryManager extends javax.swing.JFrame {
         ShowCategory();
     }
 
-     PraperedStatement prpStatement = null;
+     PreparedStatement prpStatement = null;
     
     Statement statement = null;
     Connection connection = null;
     ResultSet resultSet = null;
     
-     private void ShowCategory(){
-        try
-        {
-            connection = (Connection)DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-            Statement statement = (Statement) connection.createStatement();
-            resultSet = statement.executeQuery("Select * from categoryTbl");
-            CatogTable.setModel(DbUtils.resultSetToTableModel(resultSet));
-        } 
-        catch (Exception e) 
-        {
+    private void ShowCategory() {
+    try {
+        Class.forName("org.postgresql.Driver");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567");
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery("SELECT \"CategoryName\" ,\"id\"  FROM public.\"Categorys\"");
         
+        // Tablo modelini oluştur
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name"}, 0);
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("CategoryName");
+            model.addRow(new Object[]{id, name});
         }
+        CategoryTable.setModel(model);
+        
+        // ID sütununu gizle
+        CategoryTable.getColumnModel().getColumn(0).setMinWidth(0);
+        CategoryTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        CategoryTable.getColumnModel().getColumn(0).setWidth(0);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage());
     }
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -42,13 +63,13 @@ public class CategoryManager extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        CatNameTb = new javax.swing.JTextField();
+        CategoryName = new javax.swing.JTextField();
         EditBtn = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        CatogTable = new javax.swing.JTable();
+        CategoryTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -65,10 +86,10 @@ public class CategoryManager extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel7.setText("Name:");
 
-        CatNameTb.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        CatNameTb.addActionListener(new java.awt.event.ActionListener() {
+        CategoryName.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        CategoryName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CatNameTbActionPerformed(evt);
+                CategoryNameActionPerformed(evt);
             }
         });
 
@@ -119,7 +140,7 @@ public class CategoryManager extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CatNameTb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CategoryName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(76, 76, 76)))
@@ -145,7 +166,7 @@ public class CategoryManager extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CatNameTb, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SaveBtn)
@@ -167,9 +188,9 @@ public class CategoryManager extends javax.swing.JFrame {
                 .addGap(0, 34, Short.MAX_VALUE))
         );
 
-        CatogTable.setBackground(new java.awt.Color(255, 255, 234));
-        CatogTable.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        CatogTable.setModel(new javax.swing.table.DefaultTableModel(
+        CategoryTable.setBackground(new java.awt.Color(255, 255, 234));
+        CategoryTable.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        CategoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -177,17 +198,17 @@ public class CategoryManager extends javax.swing.JFrame {
                 {null}
             },
             new String [] {
-                "Name"
+                "CatagoryName"
             }
         ));
-        CatogTable.setRowHeight(35);
-        CatogTable.setSelectionBackground(new java.awt.Color(255, 204, 204));
-        CatogTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        CategoryTable.setRowHeight(35);
+        CategoryTable.setSelectionBackground(new java.awt.Color(255, 204, 204));
+        CategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CatogTableMouseClicked(evt);
+                CategoryTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(CatogTable);
+        jScrollPane1.setViewportView(CategoryTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -227,41 +248,33 @@ public class CategoryManager extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CatNameTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatNameTbActionPerformed
+    private void CategoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CatNameTbActionPerformed
+    }//GEN-LAST:event_CategoryNameActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
- public void Counter(){
-        try 
-        {
-            statement1 = (Statement) connection.createStatement();
-            resultSet1 = statement1.executeQuery("select Max(CatId) from CategoryTbl");
-            resultSet1.next();
-            itemId = resultSet1.getInt(1)+1;
-        }
-        catch (Exception e)      
-        {
-            
-        }
-    }
+
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-        if(CatNameTb.getText().isEmpty() ){
+        
+        try {    
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        if(CategoryName.getText().isEmpty() ){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                Counter();
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert into categoryTbl values(?,?,?,?)");
-                save.setInt(1,itemId);
-                save.setString(2,CatNameTb.getText());
-               
                 
-                
-                int satir = save.executeUpdate();
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); 
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("insert INTO  public.\"Categorys\"  values(?)");
+                save.setString(1,CategoryName.getText());
+              
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Category added Successfully!");
                 
@@ -274,28 +287,37 @@ public class CategoryManager extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_SaveBtnActionPerformed
 int key=0;
-    private void CatogTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CatogTableMouseClicked
+    private void CategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoryTableMouseClicked
 
-        DefaultTableModel model = (DefaultTableModel) CatogTable.getModel();
-        int busira = CatogTable.getSelectedRow();
-        key = Integer.valueOf(model.getValueAt(busira, 0).toString());
-        CatNameTb.setText(model.getValueAt(busira, 1).toString());
+        DefaultTableModel model = (DefaultTableModel) CategoryTable.getModel();
+        int selectedRowIndex = CategoryTable.getSelectedRow();
+    
+    
+        key = (Integer) model.getValueAt(selectedRowIndex, 0);
+        CategoryName.setText(model.getValueAt(selectedRowIndex, 1).toString());
          
         
-    }//GEN-LAST:event_CatogTableMouseClicked
+    }//GEN-LAST:event_CategoryTableMouseClicked
 
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
-          if(CatNameTb.getText().isEmpty() ){
+         
+        try {    
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(CategoryName.getText().isEmpty() ){
             JOptionPane.showMessageDialog(this, "!!! missing information warning, fill in all the information !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("update categoryTbl set CatDas=? where CatId=?");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("UPDATE  public.\"Categorys\" SET \"CategoryName\" =? WHERE \"id\" = ?");
                 save.setInt(2,key);
-                save.setString(1,CatNameTb.getText());
+                save.setString(1,CategoryName.getText());
                
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Catogory edited Successfully!");
                 
@@ -311,21 +333,27 @@ int key=0;
         
     }//GEN-LAST:event_EditBtnActionPerformed
 private void DeleteAll(){
-    CatNameTb.setText("");
+    CategoryName.setText("");
 }
     private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
+        
+        try {    
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if(key == 0){
             JOptionPane.showMessageDialog(this, "!!! warning, select a category !!!");
         }else{
             try {
-                connection = DriverManager.getConnection(""); //bu kisma mysql'den data gelecek locakhost. tinak icine
-                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete from categoryTbl where CatId=?");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567"); //bu kisma mysql'den data gelecek locakhost. tinak icine
+                PreparedStatement save = (PreparedStatement) connection.prepareStatement("Delete  FROM public.\"Categorys\" WHERE \"id\" = ?");
                 save.setInt(1,key);
                 
                 
                 
-                int satir = save.executeUpdate();
+                int row = save.executeUpdate();
                 
                 JOptionPane.showMessageDialog(this, "Category deleted Successfully!");
                 
@@ -375,8 +403,8 @@ private void DeleteAll(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CatNameTb;
-    private javax.swing.JTable CatogTable;
+    private javax.swing.JTextField CategoryName;
+    private javax.swing.JTable CategoryTable;
     private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton EditBtn;
     private javax.swing.JButton SaveBtn;

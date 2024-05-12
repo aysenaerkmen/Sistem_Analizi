@@ -193,7 +193,6 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="UserC" min="-2" pref="182" max="-2" attributes="0"/>
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                      <Component id="DateCh" min="-2" pref="182" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="CustC" min="-2" pref="182" max="-2" attributes="0"/>
@@ -266,11 +265,7 @@
                                       <Component id="BillBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="DateCh" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                       </Group>
@@ -415,8 +410,6 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
                   </Events>
-                </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="DateCh">
                 </Component>
               </SubComponents>
             </Container>
