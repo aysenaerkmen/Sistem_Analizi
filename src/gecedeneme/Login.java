@@ -25,6 +25,7 @@ public class Login extends javax.swing.JFrame {
     Statement statement = null;
     Connection connection = null;
     ResultSet resultSet = null;
+    String userName,password;
     
     public Login() {
         initComponents();
@@ -89,6 +90,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         AdminLogin.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        AdminLogin.setForeground(new java.awt.Color(255, 102, 153));
         AdminLogin.setText("Admin");
         AdminLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -210,8 +212,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_UserNameActionPerformed
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
-        String userName = UserName.getText();
-        String password = Password.getText();
+        userName = UserName.getText();
+        password = Password.getText();
         try {
         // Veritabanı bağlantısı kur
         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PetShop_Database", "postgres", "1234567");
@@ -229,13 +231,9 @@ public class Login extends javax.swing.JFrame {
         if (resultSet.next()) {
             JOptionPane.showMessageDialog(null, "Başarıyla giriş yapıldı!");
             
-            
-            
-            
-            
-            
-            
-            
+            new UserMenu().setVisible(true);
+            this.dispose();
+     
             // Burada başarılı giriş sonrası yapılacak işlemleri ekleyebilirsiniz.
         } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı adı veya şifre hatalı!");
